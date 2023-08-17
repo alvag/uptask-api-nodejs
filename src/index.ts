@@ -7,6 +7,8 @@ import appRoutes from './routes';
 
 const app = express();
 
+app.use(express.json());
+
 app.get('/', (_, res) => {
     res.send('Hello world');
 });
