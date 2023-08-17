@@ -1,9 +1,17 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 import express from 'express';
 import { dbConnection } from './config/db';
+import appRoutes from './routes';
 
 const app = express();
+
+app.get('/', (_, res) => {
+    res.send('Hello world');
+});
+
+app.use('/api', appRoutes);
 
 dbConnection()
     .then(() => {
