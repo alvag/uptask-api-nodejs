@@ -1,21 +1,30 @@
-import { MongooseError, Schema, model } from 'mongoose';
+import { MongooseError, Schema, Types, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 
-const userSchema = new Schema(
+export interface UserModel {
+    uid?: Types.ObjectId;
+    name: string;
+    password: string;
+    email: string;
+    token?: string;
+    isConfirmed?: boolean;
+}
+
+const userSchema = new Schema<UserModel>(
     {
         name: {
             type: String,
-            required: [true, 'El nombre es obligatorio'],
+            required: true,
             trim: true,
         },
         password: {
             type: String,
-            required: [true, 'La contraseña es obligatoria'],
+            required: true,
             trim: true,
         },
         email: {
             type: String,
-            required: [true, 'El email es obligatorio'],
+            required: true,
             unique: true,
             trim: true,
         },
@@ -53,7 +62,7 @@ userSchema.pre('save', async function (next) {
 
     if (!user.isModified('password')) return next();
 
-    user.password = bcrypt.hashSync(user.password!, 10);
+    user.password = bcrypt.hashSync(user.password, 10);
 
     next();
 });

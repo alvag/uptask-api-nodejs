@@ -20,7 +20,6 @@ export const getUsers = async (
 };
 
 export const createUser = async (req: Request, res: Response) => {
-    console.log(generateRandomId());
     try {
         const { name, email, password } = req.body;
 
@@ -41,6 +40,8 @@ export const createUser = async (req: Request, res: Response) => {
             });
         }
 
-        return res.status(500).send(error);
+        return res.status(500).send({
+            message: 'Internal server error',
+        });
     }
 };
