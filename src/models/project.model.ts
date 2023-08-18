@@ -51,5 +51,13 @@ const projectSchema = new Schema<ProjectModel>(
     }
 );
 
+projectSchema.methods.toJSON = function () {
+    const project = this.toObject();
+    project.uid = project._id;
+    delete project._id;
+    delete project.__v;
+    return project;
+};
+
 const Project = model('Project', projectSchema);
 export default Project;

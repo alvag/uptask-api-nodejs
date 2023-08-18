@@ -22,6 +22,12 @@ export const login = async (req: Request, res: Response) => {
             });
         }
 
+        if (!user.isConfirmed) {
+            return res.status(400).send({
+                message: 'Debes confirmar tu cuenta para iniciar sesión',
+            });
+        }
+
         if (!bcrypt.compareSync(password, user.password)) {
             return res.status(400).send({
                 message: 'Email o contraseña incorrectos',
