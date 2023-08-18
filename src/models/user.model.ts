@@ -67,6 +67,17 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
+userSchema.pre('findOneAndUpdate', async function (next) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const user = this;
+
+    if (user.get('password')) {
+        user.set('password', bcrypt.hashSync(user.get('password'), 10));
+    }
+
+    next();
+});
+
 const User = model('User', userSchema);
 
 export default User;
