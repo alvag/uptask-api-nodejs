@@ -10,3 +10,12 @@ export const createToken = (uid: Types.ObjectId) => {
         { expiresIn: process.env.TOKEN_EXPIRES }
     );
 };
+
+export const verifyToken = (token: string) => {
+    try {
+        const payload = jwt.verify(token, process.env.TOKEN_SECRET_KEY!);
+        return payload as { uid: string };
+    } catch (error) {
+        throw error;
+    }
+};

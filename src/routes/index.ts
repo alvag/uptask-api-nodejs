@@ -8,7 +8,7 @@ router.get('/', (_, res) => {
     res.send('Hello world');
 });
 
-router.use('/users', userRoutes);
 router.use('/auth', authRoutes);
+router.use('/users', userRoutes);
 
 export default router;
