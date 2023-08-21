@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import User from '../models/user.model';
 import { MongooseError } from 'mongoose';
 import { generateRandomId, sendEmailAccountConfirmation } from '../helpers';
+import { createToken } from '../helpers/jwt.helper';
 
 export const getUsers = async (
     req: Request,
@@ -62,7 +63,10 @@ export const me = async (req: Request, res: Response) => {
             });
         }
 
-        return res.status(200).json(user);
+        return res.status( 200 ).json( {
+            user,
+            token: createToken( user._id ),
+        } );
     } catch (error) {
         return res.status(500).send({
             message: 'Internal server error',
