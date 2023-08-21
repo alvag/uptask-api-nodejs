@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import User from '../models/user.model';
 import { MongooseError } from 'mongoose';
-import { generateRandomId } from '../helpers';
+import { generateRandomId, sendEmailAccountConfirmation } from '../helpers';
 
 export const getUsers = async (
     req: Request,
@@ -32,7 +32,11 @@ export const createUser = async (req: Request, res: Response) => {
 
         await newUser.save();
 
-        return res.status(201).json(newUser);
+        sendEmailAccountConfirmation( email, newUser.token! );
+
+        return res.status( 201 ).json( {
+            message: 'Usuario creado correctamente',
+        } );
     } catch (error) {
         if (error instanceof MongooseError) {
             return res.status(400).json({
@@ -65,3 +69,5 @@ export const me = async (req: Request, res: Response) => {
         });
     }
 };
+
+
