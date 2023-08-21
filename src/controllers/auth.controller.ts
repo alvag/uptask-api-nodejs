@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import User from '../models/user.model';
 import bcrypt from 'bcrypt';
 import { createToken } from '../helpers/jwt.helper';
-import { generateRandomId } from '../helpers';
+import { generateRandomId, sendEmailRecoveryPassword } from '../helpers';
 
 export const login = async (req: Request, res: Response) => {
     try {
@@ -86,6 +86,8 @@ export const recoveryPassword = async (req: Request, res: Response) => {
                 message: 'Email no encontrado',
             });
         }
+
+        sendEmailRecoveryPassword( email, token );
 
         return res.json({
             message: 'Se ha enviado un correo para recuperar tu contraseña',

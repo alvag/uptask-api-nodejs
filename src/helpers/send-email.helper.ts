@@ -28,3 +28,13 @@ export const sendEmailAccountConfirmation = ( email: string, token: string ) => 
         .then( console.log )
         .catch( console.log );
 };
+
+export const sendEmailRecoveryPassword = ( email: string, token: string ) => {
+    const html = `
+        <h1>Recupera tu contraseña</h1>
+        <a href="${ process.env.CLIENT_URL }/change-password/${ token }">Click aquí</a>
+    `;
+    sendEmail( email, 'Recupera tu contraseña', html )
+        .then( console.log )
+        .catch( console.log );
+};
